@@ -1,29 +1,22 @@
 import os
 
 import telebot
-import yt_dlp
 
-from utils import get_daily_horoscope
 
 BOT_TOKEN = "6828287802:AAEMo3QZsWPTwQ8FcfUlCGtaPXQD3x5tOdA"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-        "yt-dlp",
-        "--extract-audio",
-        "--audio-format", "aac",
-        "--add-metadata",
-        "--embed-thumbnail",
-        "--batch-file", "/playlist/playlist.txt",
-        "--download-archive", "/archive/archive.txt",
-        "-o", "/music/%(title)s.%(ext)s"
-        ]
-
-
-
 def download_video(url, message):
     try:
-        ydl.download([url])
+        bot.reply_to(message, "💿 Searching " + url)
+        os.system('python3 /script/main.py ' + url)
+            # Replace 'path_to_file' with your actual file path
+        file_path = '/script/DAP_Number of Individual Cases.xlsx'
+
+         # Open the file and send it
+        with open(file_path, 'rb') as file:
+            bot.send_document(message.chat.id, file)
         return 0
     except Exception as e:
         bot.reply_to(message, "❌ Error")
@@ -41,7 +34,6 @@ def send_welcome(message):
 
 @bot.message_handler(commands=['get'])
 def upload(message):
-    bot.reply_to(message, "💿 Searching...")
     argument = message.text.split('/get')[-1]
     if (download_video(argument, message) == 0):
         bot.reply_to(message, "✅ Done")

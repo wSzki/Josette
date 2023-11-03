@@ -55,4 +55,4 @@ COPY ./script /script
 WORKDIR /script
 
 # By default, run a shell. You could also specify your script here.
-CMD ["/bin/bash", "-c", "while true; do sleep 1000; done"]
+CMD ["python3", "bot.py"]
