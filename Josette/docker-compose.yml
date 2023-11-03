@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  archlinux_service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: archlinux_container
+    volumes:
+      - ./script:/script
+
