@@ -112,6 +112,24 @@ def find_url_with_substring(drug):
     return None
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+# Find all matches                                          
+# ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+def find_lines_with_substring(drug):
+    filename = 'database.txt'
+    matching_lines = []
+    with open(filename, 'r') as file:
+        for line in file:
+            if drug.upper() in line.upper():
+                # Find the start of the URL (assuming it starts with "http")
+                url_index = line.find('http')
+                if url_index != -1:
+                    # Keep only the part of the line before the URL
+                    drug_info = line[:url_index].strip()
+                    matching_lines.append(drug_info)
+    return matching_lines
+
+
+# ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 # Send file to user
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 def send_xslx(chat_id, drug):
@@ -196,12 +214,29 @@ def echo_all(message):
     # Searching for file in local database
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     bot.send_message(chat_id, "🔎 Searching for " + drug.upper() + "\nType /update to refresh the local database from \nhttps://www.adrreports.eu/tables/substance/a.html")
-    url = find_url_with_substring(drug)
-    if (url == None):
+
+    matched_drug_lines = find_lines_with_substring(drug)
+    if (len(matched_drug_lines) == 0):
         bot.send_message(chat_id, "❌ Error - No match found for " + drug.upper())
         bot.send_message(chat_id, "🐱 Here's a cat picture instead - bisou")
         bot.send_message(chat_id, get_random_cat_url())
         return
+
+    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    # If multiple matches, send them all to the user and stop
+    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    if (len(matched_drug_lines) != 1):
+        if len(matched_drug_lines) > 50:
+            bot.send_message(chat_id, "⚠️  Only the first 50 matches are shown below")
+            matched_drug_lines = matched_drug_lines[:50]
+        message_string = '\n'.join(matched_drug_lines)
+        bot.send_message(chat_id, message_string)
+        bot.send_message(chat_id, "⚠️  Multiple matches for " + drug.upper() + "\nPlease be more specific")
+        return
+
+    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    # If only one match found, continue
+    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     bot.send_message(chat_id, "✅ URL found in local database")
 
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
