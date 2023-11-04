@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: archlinux_container
+    container_name: Josette
     volumes:
-      - ./script:/script
+      - ../script:/script
 

@@ -23,6 +23,7 @@ RUN git clone https://aur.archlinux.org/yay.git && \
 # Use pikaur to install python-playwright from AUR
 RUN yay -S --noconfirm python-pytelegrambotapi
 RUN yay -S --noconfirm python-playwright
+RUN yay -S --noconfirm python-beautifulsoup4
 
 
 
@@ -49,7 +50,7 @@ RUN pacman -S --noconfirm \
     alsa-lib
 
 # Copy the contents of the local script directory to /script inside the container
-COPY ./script /script
+#COPY ../script /script
 
 # Set the working directory to /script
 WORKDIR /script

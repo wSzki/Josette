@@ -22,7 +22,7 @@ if __name__ == "__main__":
     url_found = find_url_with_substring(filename, substring)
 
     if url_found:
-        print("URL found:", url_found)
+        sys.exit(0)  # Exit the script
     else:
-        print("No URL found with the given substring.")
+        sys.exit(1)  # Exit the script
 
