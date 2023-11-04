@@ -225,18 +225,26 @@ def echo_all(message):
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # If multiple matches, send them all to the user and stop
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    if (len(matched_drug_lines) != 1):
-        if len(matched_drug_lines) > 50:
-            bot.send_message(chat_id, "⚠️  Only the first 50 matches are shown below")
-            matched_drug_lines = matched_drug_lines[:50]
-        message_string = '\n'.join(matched_drug_lines)
-        bot.send_message(chat_id, message_string)
-        bot.send_message(chat_id, "⚠️  Multiple matches for " + drug.upper() + "\nPlease be more specific")
-        return
+    if not (drug.endswith(',')):
+        if (len(matched_drug_lines) != 1):
+            if len(matched_drug_lines) > 50:
+                bot.send_message(chat_id, "⚠️  Only the first 50 matches are shown below")
+                matched_drug_lines = matched_drug_lines[:50]
+
+            # ::::::::::::::::::::::::::::::::::::::::::::::::::
+            # Validate query with ','                           
+            # ::::::::::::::::::::::::::::::::::::::::::::::::::
+
+            message_string = '\n'.join(matched_drug_lines)
+            bot.send_message(chat_id, message_string)
+            bot.send_message(chat_id, "⚠️  Multiple matches for " + drug.upper() + "\nPlease be more specific")
+            bot.send_message(chat_id, "Use the ',' character to validate your query\nExample: /" + drug + ",")
+            return
 
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # If only one match found, continue
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
+    url = find_url_with_substring(drug)
     bot.send_message(chat_id, "✅ URL found in local database")
 
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
