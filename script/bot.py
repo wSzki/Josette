@@ -222,7 +222,7 @@ def echo_all(message):
     matched_drug_lines = find_lines_with_substring(drug)
     if (len(matched_drug_lines) == 0):
         bot.send_message(chat_id, "❌ Error - No match found for " + drug.upper())
-        bot.send_message(chat_id, "🐱 Here's a cat picture instead - bisou")
+        bot.send_message(chat_id, "🐱 Voici une photo de tout petit chat a la place - bisou")
         bot.send_message(chat_id, get_random_cat_url())
         return
 
