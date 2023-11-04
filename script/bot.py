@@ -7,6 +7,8 @@ import telebot
 import sys
 import subprocess
 from datetime import datetime
+import time
+import random
 
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -200,6 +202,8 @@ def get_random_cat_url():
 # ------------------------------------ MAIN ------------------------------------
 # ==============================================================================
 
+
+
 @bot.message_handler(func=lambda msg: True)
 def echo_all(message):
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -208,7 +212,7 @@ def echo_all(message):
     drug      = message.text.upper().lstrip('/')
     chat_id   = message.chat.id
     url       = ''
-
+    funk(chat_id)
 
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Searching for file in local database
@@ -269,5 +273,25 @@ def echo_all(message):
 # ==============================================================================
 # ------------------------------------ CORE ------------------------------------
 # ==============================================================================
+def funk (chat_id) :
+    if random.randint(1, 100) == 1:
+        bot.send_message(chat_id, "Avez vous rencontré mon ami Monsieur Zahutte 🍕?")
+        time.sleep(5)
+    if random.randint(1, 100) == 2:
+        bot.send_message(chat_id, "Comment va Starhfoulleh le petit cheval? 🐴")
+        time.sleep(5)
+    if random.randint(1, 100) == 3:
+        bot.send_message(chat_id, "Il est temps de faire une petite balade")
+        time.sleep(5)
+    if random.randint(1, 100) == 4:
+        bot.send_message(chat_id, "Attendez je reviens")
+        time.sleep(5)
+        bot.send_message(chat_id, "haha")
+        bot.send_message(chat_id, "bisou")
+        time.sleep(2)
+
+
+
 bot.infinity_polling()
+
 
