@@ -213,7 +213,7 @@ def echo_all(message):
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Searching for file in local database
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    bot.send_message(chat_id, "🔎 Searching for " + drug.upper() + "\nType /update to refresh the local database from \nhttps://www.adrreports.eu/tables/substance/a.html")
+    bot.send_message(chat_id, "🔎 Searching for " + drug.upper() + "\nType /update to refresh the local database from \nhttps://www.adrreports.eu/fr/search_subst.html#")
 
     matched_drug_lines = find_lines_with_substring(drug)
     if (len(matched_drug_lines) == 0):
@@ -235,10 +235,10 @@ def echo_all(message):
             # Validate query with ','                           
             # ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-            message_string = '\n'.join(matched_drug_lines)
+            message_string = '\n\n'.join(matched_drug_lines)
             bot.send_message(chat_id, message_string)
             bot.send_message(chat_id, "⚠️  Multiple matches for " + drug.upper() + "\nPlease be more specific")
-            bot.send_message(chat_id, "Use the ',' character to validate your query\nExample: /" + drug + ",")
+            bot.send_message(chat_id, "Use the ',' character to validate your query\nExample: /" + drug + ",\nIf you query is incomplete (example : /ABA,) Jose will pick the first match")
             return
 
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
