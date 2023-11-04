@@ -4,7 +4,6 @@
 
 import os
 import telebot
-from test import test
 import sys
 import subprocess
 
@@ -162,7 +161,13 @@ async def sub_download_excel_file(drug, url):
 def download_excel_file(drug, url):
     return asyncio.run(sub_download_excel_file(drug, url))
 
-
+def get_random_cat_url():
+    response = requests.get('https://api.thecatapi.com/v1/images/search')
+    if response.status_code == 200:
+        data = response.json()
+        return data[0]['url']
+    else:
+        return "Failed to get a cat picture."
 
 # ==============================================================================
 # ------------------------------------ MAIN ------------------------------------
@@ -181,10 +186,12 @@ def echo_all(message):
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Searching for file in local database
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    bot.send_message(chat_id, "🔎 Searching for " + drug.upper())
+    bot.send_message(chat_id, "🔎 Searching for " + drug.upper() + "\nType /update to refresh the local database")
     url = find_url_with_substring(drug)
     if (url == None):
         bot.send_message(chat_id, "❌ Error - No match found for " + drug.upper())
+        bot.send_message(chat_id, "🐱 Here's a cat picture instead - bisou")
+        bot.send_message(chat_id, get_random_cat_url())
         return
     bot.send_message(chat_id, "✅ URL found in local database")
 
