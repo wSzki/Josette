@@ -6,9 +6,11 @@ import os
 import telebot
 import sys
 import subprocess
+from datetime import datetime
+
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-# Playwright                                                
+# Playwright
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 import asyncio
 from playwright.async_api import async_playwright
@@ -16,7 +18,7 @@ from pathlib import Path
 import shutil
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-# Db update                                                 
+# Db update
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 import requests
 from bs4 import BeautifulSoup
@@ -45,6 +47,13 @@ def fetch_and_store_links():
 
     # Set the cookie in the session
     session.cookies.set(cookie_name, cookie_value)
+
+    # Get the current date in the format you prefer (e.g., YYYY-MM-DD)
+    current_date = datetime.now().strftime("%Y-%m-%d")
+    new_filename = "{0}_{1}.txt".format(filename, current_date)
+
+    # Backup existing database
+    os.rename(filename, new_filename)
 
     # Open the file to write
     with open(filename, 'w', encoding='utf-8') as file:
@@ -186,7 +195,7 @@ def echo_all(message):
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Searching for file in local database
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    bot.send_message(chat_id, "🔎 Searching for " + drug.upper() + "\nType /update to refresh the local database")
+    bot.send_message(chat_id, "🔎 Searching for " + drug.upper() + "\nType /update to refresh the local database from \nhttps://www.adrreports.eu/tables/substance/a.html")
     url = find_url_with_substring(drug)
     if (url == None):
         bot.send_message(chat_id, "❌ Error - No match found for " + drug.upper())
