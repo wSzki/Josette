@@ -108,7 +108,8 @@ def find_url_with_substring(drug):
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 def send_xslx(chat_id, drug):
     try:
-        file_path = '/script/'+drug
+        os.rename(drug, drug+'.xlsx')
+        file_path = '/script/'+drug+'.xlsx'
         with open(file_path, 'rb') as file:
             bot.send_document(chat_id, file)
         return 0
@@ -116,7 +117,7 @@ def send_xslx(chat_id, drug):
         return 1
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-# Download file from dap.ema.europa.eu                      
+# Download file from dap.ema.europa.eu
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 async def sub_download_excel_file(drug, url):
@@ -172,7 +173,7 @@ def echo_all(message):
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Variables
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    drug      = message.text.upper()
+    drug      = message.text.upper().lstrip('/')
     chat_id   = message.chat.id
     url       = ''
 
