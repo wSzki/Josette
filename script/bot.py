@@ -191,7 +191,7 @@ def echo_all(message):
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
     # Scraping xlsx file from dap.ema.europa.eu
     # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    bot.send_message(chat_id, "⏬ Downloading Excel file from dap.ema.europa.eu")
+    bot.send_message(chat_id, "⏬ Downloading Excel file from " + url)
     if (download_excel_file(drug, url)):
         bot.send_message(chat_id, "❌ Error downloading file from dap.ema.europa.eu")
         return
