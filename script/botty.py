@@ -9,7 +9,6 @@ import subprocess
 from datetime import datetime
 import time
 import random
-import pandas as pd
 
 
 # ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -86,47 +85,7 @@ def fetch_and_store_links():
             else:
                 return letter
     return None
-# Read the CSV file from the second script
-csv_file = 'Liste.csv'  # Replace with the path to your CSV file
-messages = pd.read_csv(csv_file, usecols=[0], header=None).iloc[:, 0].dropna()
 
-# Function to send messages from the second script
-def send_messages(chat_id, messages):
-    for message in messages:
-        # Add a comma after each message
-        drug = "ABACAVIR"
-        url = find_url_with_substring(drug)
-        bot.send_message(chat_id, "✅ URL found in local database")
-
-    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    # Scraping xlsx file from dap.ema.europa.eu
-    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        bot.send_message(chat_id, "⏬ Downloading Excel file from " + url)
-        if (download_excel_file(drug, url)):
-            bot.send_message(chat_id, "❌ Error downloading file from dap.ema.europa.eu")
-            return
-        bot.send_message(chat_id, "✅ Excel file downloaded")
-
-    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-    # Sending the file back to the user
-    # ::::::::::::::::::::::::::::::::::::::::::::::::::::::
-        if (send_xslx(chat_id, drug)):
-            bot.send_message(chat_id, "❌ Error sending file to user")
-            return
-
-        bot.send_message(chat_id, "✅ Done for " + drug.upper())
-
-        time.sleep(20)  # Wait for 20 seconds
-
-# Command handler for 'lapin' from the second script
-@bot.message_handler(commands=['lapin'])
-def handle_lapin(message):
-    chat_id = message.chat.id
-    # Call send_messages function to send each message with a comma
-    send_messages(chat_id, messages)
-
-
-    
 @bot.message_handler(commands=['update'])
 def upload(message):
     chat_id   = message.chat.id
@@ -136,6 +95,9 @@ def upload(message):
         return
     bot.send_message(chat_id, "✅ Database updated")
 
+@bot.message_handler(commands=['id'])
+def upload(message):
+    bot.send_message(message.chat.id, message.chat.id)
 
 
 # ==============================================================================

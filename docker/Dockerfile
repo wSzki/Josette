@@ -24,6 +24,7 @@ RUN git clone https://aur.archlinux.org/yay.git && \
 RUN yay -S --noconfirm python-pytelegrambotapi
 RUN yay -S --noconfirm python-playwright
 RUN yay -S --noconfirm python-beautifulsoup4
+RUN yay -S --noconfirm python-pandas
 
 
 
